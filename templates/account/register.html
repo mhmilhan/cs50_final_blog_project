@@ -1,0 +1,115 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="flex flex-col justify-center font-[sans-serif] p-4">
+        <div class="max-w-md w-full mx-auto border border-gray-300 rounded-2xl p-8">
+
+            {% load form_filters %}
+
+            <form method='post' action='{% url 'register' %}'>
+                {% csrf_token %}
+                
+                <div class="space-y-5">
+
+                    {% if form.non_field_errors %}
+                        <ul class="text-secondary text-sm mt-2">
+                            {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <div>
+                        <label class="text-gray-800 text-sm mb-2 block" for="{{ form.first_name.id_for_label }}">First Name</label>
+                        {{ form.first_name|add_attrs:"text-gray-800 bg-white border border-secondary w-full text-sm px-4 py-3 rounded-md outline-primary,Enter First Name" }}
+                        {% if form.first_name.errors %}
+                            <ul class="text-secondary text-sm mt-2">
+                                {% for error in form.first_name.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="text-gray-800 text-sm mb-2 block" for="{{ form.last_name.id_for_label }}">Last Name</label>
+                        {{ form.last_name|add_attrs:"text-gray-800 bg-white border border-secondary w-full text-sm px-4 py-3 rounded-md outline-primary,Enter Last Name" }}
+                        {% if form.last_name.errors %}
+                            <ul class="text-secondary text-sm mt-2">
+                                {% for error in form.last_name.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="text-gray-800 text-sm mb-2 block" for="{{ form.username.id_for_label }}">Username</label>
+                        {{ form.username|add_attrs:"text-gray-800 bg-white border border-secondary w-full text-sm px-4 py-3 rounded-md outline-primary,Enter Username" }}
+                        {% if form.username.errors %}
+                            <ul class="text-secondary text-sm mt-2">
+                                {% for error in form.username.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="text-gray-800 text-sm mb-2 block" for="{{ form.email.id_for_label }}">Email</label>
+                        {{ form.email|add_attrs:"text-gray-800 bg-white border border-secondary w-full text-sm px-4 py-3 rounded-md outline-primary,Enter Email" }}
+                        {% if form.email.errors %}
+                            <ul class="text-secondary text-sm mt-2">
+                                {% for error in form.email.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="text-gray-800 text-sm mb-2 block" for="{{ form.password1.id_for_label }}">Password</label>
+                        {{ form.password1|add_attrs:"text-gray-800 bg-white border border-secondary w-full text-sm px-4 py-3 rounded-md outline-primary,Enter Password" }}
+                        {% if form.password1.errors %}
+                            <ul class="text-secondary text-sm mt-2">
+                                {% for error in form.password1.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label class="text-gray-800 text-sm mb-2 block" for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                        {{ form.password2|add_attrs:"text-gray-800 bg-white border border-secondary w-full text-sm px-4 py-3 rounded-md outline-primary,Confirm Password" }}
+                        {% if form.password2.errors %}
+                            <ul class="text-secondary text-sm mt-2">
+                                {% for error in form.password2.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="flex items-center">
+                        <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 shrink-0 text-secondary focus:ring-primary border-secondary rounded" />
+                        <label for="remember-me" class="text-secondary ml-3 block text-sm">
+                            I accept the <a href="javascript:void(0);" class="text-primary font-semibold hover:underline ml-1">Terms and Conditions</a>
+                        </label>
+                    </div>
+
+                </div>
+
+                <div class="!mt-12">
+                    <button type="submit" class="w-full py-3 px-4 text-sm tracking-wider font-semibold rounded-md text-white bg-secondary hover:bg-primary focus:outline-none">
+                        Create an account
+                    </button>
+                </div>
+                <p class="text-gray-800 text-sm mt-6 text-center">Already have an account? <a href="{% url 'login' %}" class="text-secondary font-semibold hover:underline ml-1">Login here</a></p>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

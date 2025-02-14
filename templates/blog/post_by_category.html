@@ -1,0 +1,92 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+
+{% block content %}
+  {% if not request.GET.page or request.GET.page == '1' %}  
+    <div class="bg-white font-sans p-4">
+      <div class="max-w-7xl max-lg:max-w-3xl text-center max-md:max-w-sm mx-auto">
+          <div>
+
+            <h2 class="md:text-3xl text-xl font-bold md:font-extrabold text-primary inline-block relative after:absolute after:w-4/6 after:h-1 after:left-0 after:right-0 after:-bottom-4 after:mx-auto after:bg-primary after:rounded-full">
+                enLearning Selected Blog
+            </h2>
+
+
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+            {% for post in featured_post_list %}
+              <div class="flex max-lg:flex-col bg-white cursor-pointer rounded overflow-hidden shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] hover:scale-[1.03] transition-all duration-300 
+                  {% if forloop.counter == 1 %} 
+                    md:block lg:flex  <!-- Show the first post on all devices, use flex on large screens -->
+                  {% elif forloop.counter == 2 %}
+                    hidden md:block lg:flex  <!-- Show the second post on medium and large devices, hidden on small screens -->
+                  {% else %}
+                    hidden lg:flex  <!-- Show the remaining posts on large screens only -->
+                  {% endif %}">
+                
+                <!-- Image Block -->
+                <div class="h-64 lg:w-1/3"> <!-- Use 1/3 width for image on large screens -->
+                  <img src="{{ post.featured_image.url }}" alt="{{ post.short_description }}" class="w-full h-full object-cover" />
+                </div>
+                
+                <!-- Content Block -->
+                <div class="p-6 lg:w-2/3"> <!-- Use 2/3 width for content on large screens -->
+                  <h3 class="text-xl font-bold text-gray-800">{{ post.title }}</h3>
+                  <span class="text-sm block text-gray-400 mt-2">{{ post.published_at }} | BY {{ post.author.first_name }} {{ post.author.last_name }}</span>
+                  <p class="text-sm text-gray-500 mt-4"> {{ post.short_description | truncatewords:25 }} </p>
+                  <a href="{% url 'post_detail' post.category post.uuid %}" class="mt-4 inline-block text-secondary font-semibold text-sm hover:underline">READ MORE..</a>
+                </div>
+
+              </div>
+            {% endfor %}
+          </div>
+      </div>
+    </div>
+  {% endif %}  
+
+
+    {% comment %} All Post {% endcomment %}
+
+    <div class="bg-white sm:px-6 px-4 py-10 font-sans">
+      <div class="max-w-7xl max-lg:max-w-3xl max-md:max-w-sm mx-auto">
+        <div>
+          <h2 class="text-3xl font-extrabold text-gray-800 inline-block">READ MORE</h2>
+        </div>
+        <hr class="my-8" />
+        <div class="grid md:grid-cols-2 md:grid-col gap-16">
+          {% for post in post_list %}
+            <div class="cursor-pointer rounded overflow-hidden group">
+              <div>
+                <a href="{%  url 'post_detail' post.category post.uuid  %}">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 group-hover:text-blue-500 transition-all">{{ post.title }}</h3>
+                </a>
+                <span class="text-sm block text-gray-400">{{ post.published_at }} | BY {{ post.author.first_name }} {{ post.author.last_name }}</span>
+                <div class="mt-4">
+                  <p class="text-gray-400 text-sm">{{ post.short_description | truncatewords:25 }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+<!-- Pagination Controls -->
+        <div class="mt-8">
+            <ul class="font-[sans-serif] flex mx-auto border-2 divide-x-2 border-black rounded w-max mt-4">
+                {% if post_list.has_previous %}
+                <li class="px-5 py-2.5 flex items-center justify-center shrink-0 cursor-pointer text-sm font-semibold text-[#333] min-w-[110px] hover:bg-gray-50">
+                    <a href="?page={{ post_list.previous_page_number }}">Previous</a>
+                </li>
+                {% endif %}
+                {% if post_list.has_next %}
+                <li class="px-5 py-2.5 flex items-center justify-center shrink-0 cursor-pointer text-sm font-semibold text-[#333] min-w-[110px] hover:bg-gray-50">
+                    <a href="?page={{ post_list.next_page_number }}">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+
+    </div>
+
+{% endblock %}

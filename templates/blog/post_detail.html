@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+
+<div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16 relative">
+
+    <!-- Featured Image Section -->
+    <div class="relative h-64 sm:h-80 md:h-96 lg:h-[500px] overflow-hidden rounded-lg shadow-lg">
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div> <!-- Dark overlay on image -->
+        <img class="w-full h-full object-cover object-center"
+             src="{{ full_post.featured_image.url }}"
+             alt="{{ full_post.title }}">
+    </div>
+
+    <!-- Title & Content Section -->
+    <div class="max-w-3xl mx-auto mt-10">
+        <div class="relative bg-white -mt-24 p-5 sm:p-10 rounded-lg shadow-lg z-10">
+            <h1 class="text-gray-900 font-bold text-2xl sm:text-3xl lg:text-4xl mb-3">
+                {{ full_post.title }}
+            </h1>
+            <p class="text-gray-700 text-xs lg:text-sm my-3">
+                author: 
+                <a href="#"
+                   class="text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
+                    {{ full_post.author.first_name }} {{ full_post.author.last_name }}
+                </a>
+                &nbsp;|&nbsp;
+                published_at: {{ full_post.published_at }}
+            </p>
+            <div class="mt-5 text-gray-800 leading-relaxed text-sm sm:text-base lg:text-lg">
+                {{ full_post.post|safe }}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

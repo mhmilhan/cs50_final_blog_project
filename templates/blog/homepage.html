@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="bg-white font-sans p-4">
+  <div class="max-w-7xl max-lg:max-w-3xl mx-auto">
+    <!-- Featured Posts Section -->
+    <div class="text-center"> <!-- Added text-center for centering -->
+      <h2 class="md:text-3xl text-xl font-bold md:font-extrabold text-primary inline-block relative after:absolute after:w-4/6 after:h-1 after:left-0 after:right-0 after:-bottom-4 after:mx-auto after:bg-primary after:rounded-full">
+        Featured Post 
+      </h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+      {% for post in featured_post_list %}
+        <div class="flex max-lg:flex-col bg-white cursor-pointer rounded overflow-hidden shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] hover:scale-[1.03] transition-all duration-300">
+          <div class="h-64 lg:w-1/3">
+            <img src="{{ post.featured_image.url }}" alt="{{ post.short_description }}" class="w-full h-full object-cover" />
+          </div>
+          <div class="p-6 lg:w-2/3">
+            <h3 class="text-xl font-bold text-gray-800">{{ post.title }}</h3>
+            <span class="text-sm block text-gray-400 mt-2">{{ post.published_at }} | BY {{ post.author.first_name }} {{ post.author.last_name }}</span>
+            <p class="text-sm text-gray-500 mt-4"> {{ post.short_description | truncatewords:25 }} </p>
+            <a href="{% url 'post_detail' post.category post.uuid %}" class="mt-4 inline-block text-secondary font-semibold text-sm hover:underline">READ MORE..</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Posts by Category -->
+<div class="bg-white sm:px-6 px-4 py-10 font-sans">
+  <div class="max-w-7xl max-lg:max-w-3xl max-md:max-w-sm mx-auto">
+    {% for category, posts in category_posts.items %}
+      <div class="mt-10">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">{{ category }}</h2>
+        <div class="grid md:grid-cols-2 gap-16">
+          {% for post in posts %}
+            <div class="cursor-pointer rounded overflow-hidden group">
+              <div>
+                <a href="{% url 'post_detail' post.category post.uuid %}">
+                  <h3 class="text-xl font-bold text-gray-800 mb-4 group-hover:text-blue-500 transition-all">{{ post.title }}</h3>
+                </a>
+                <span class="text-sm block text-gray-400">{{ post.published_at }} | BY {{ post.author.first_name }} {{ post.author.last_name }}</span>
+                <div class="mt-4">
+                  <p class="text-gray-400 text-sm">{{ post.short_description | truncatewords:25 }}</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="mt-6 text-right">
+          <a href="{% url 'posts_by_category' category %}" class="text-sm text-blue-500 hover:underline">View all in {{ category }}</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
