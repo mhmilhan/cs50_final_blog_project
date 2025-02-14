@@ -1,7 +1,13 @@
 # Prioritize TypeScript files
-*.py linguist-detectable=true
-*.js linguist-detectable=true
-*.css linguist-detectable=false
 
-# Lower priority for HTML files in the root folder
+
+# Prioritize Python as the main language
+*.py linguist-detectable=true
+**/*.py linguist-detectable=true
+
+# Lower the weight of HTML files (but don't hide them completely)
+*.html linguist-detectable=true
+*.js linguist-detectable=true
+*.css linguist-detectable=true
+
 
