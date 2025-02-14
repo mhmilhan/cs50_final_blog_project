@@ -1,6 +1,7 @@
 # Prioritize TypeScript files
 *.py linguist-detectable=true
 *.js linguist-detectable=true
+*.css linguist-detectable=false
 
 # Lower priority for HTML files in the root folder
 
